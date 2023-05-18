@@ -1,0 +1,103 @@
+body {
+  font-family: 'Dosis', sans-serif;
+  background-color: #f2f2f2;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+.imageContainer{
+position: absolute;
+left: 14%;
+border: 2px solid black;
+width: 200px;
+height: 200px;
+border-radius: 50%;
+}
+
+input[type="file"]:not(:placeholder-shown) + label {
+  display: none;
+}
+
+
+.profile-image {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.profile-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+form {
+  width: 50vw;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  margin-top: 0;
+  color: #333;
+  font-weight: 200;
+  font-size: 28px;
+  margin-bottom: 20px;
+  margin-right: 15px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+input[type="submit"] {
+  background-color: #4caf50;
+  color: #ffffff;
+  border: none;
+  padding: 12px;
+  margin-top: 10px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+  background-color: #6ce272;
+}
+
+@media (max-width: 480px) {
+  form {
+    padding: 10px;
+  }
+  h1 {
+    font-size: 24px;
+  }
+  input[type="submit"] {
+    padding: 10px;
+  }
+}

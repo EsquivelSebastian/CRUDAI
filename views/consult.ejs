@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Consulta de empleadoss</title>
+  <link rel="stylesheet" href="/consult.css">
+    
+</head>
+
+<body>
+  <div class="container">
+    <h1>Consulta de empleadoss</h1>
+
+    <!-- Aquí se generarán dinámicamente los datos de los empleadoss -->
+    <% empleados.forEach(function(empleados) { %>
+      <div class="employee">
+        <div >
+          <img src="/uploads/<%= empleados.imageName %>" alt="Profile Image" class="employee-image">
+        </div>
+        <div class="employee-details">
+          <h2>
+            <%= empleados.apellido_nombre %>
+          </h2>
+          <p>ID de empleados: <%= empleados.employeeID %>
+          </p>
+          <p>Legajo que reporta: <%= empleados.legajo_reporta %>
+          </p>
+          <p>Dirección: <%= empleados.direccion %>
+          </p>
+          <p>Gerencia/Área: <%= empleados.gerencia_area %>
+          </p>
+          <p>Gerencia: <%= empleados.gerencia %>
+          </p>
+          <p>Puesto: <%= empleados.puesto %>
+          </p>
+          <p>Sucursal: <%= empleados.sucursal %>
+          </p>
+        </div>
+      </div>
+      <% }) %>
+
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Plantilla Básica</title>
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200;400&display=swap" rel="stylesheet">
+  </head>
+<body>
+  <h1>Alta de Empleado</h1>
+
+  <form action="/crear-entrada" method="post" enctype="multipart/form-data">
+
+    <div class="imageContainer">
+      <div class="profile-image">
+        <img src="/a.jpg" alt="Profile Image" id="previewImage">
+      </div>
+      <input type="file" id="profileImage" name="profileImage" onchange="previewFile()">
+    </div>
+    
+    <label for="employeeID">ID de Empleado:</label>
+    <input type="text" id="employeeID" name="employeeID">
+
+    <label for="legajo_reporta">Legajo que reporta:</label>
+    <input type="text" id="legajo_reporta" name="legajo_reporta">
+
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre">
+
+    <label for="apellido">Apellido:</label>
+    <input type="text" id="apellido" name="apellido">
+
+    <label for="apellido_nombre">Apellido y Nombre:</label>
+    <input type="text" id="apellido_nombre" name="apellido_nombre">
+
+    <label for="direccion">Dirección:</label>
+    <input type="text" id="direccion" name="direccion">
+
+    <label for="gerencia_area">Gerencia/Área:</label>
+    <input type="text" id="gerencia_area" name="gerencia_area">
+
+    <label for="gerencia">Gerencia:</label>
+    <input type="text" id="gerencia" name="gerencia">
+
+    <label for="puesto">Puesto:</label>
+    <input type="text" id="puesto" name="puesto">
+
+    <label for="sucursal">Sucursal:</label>
+    <input type="text" id="sucursal" name="sucursal">
+
+    <input type="submit" value="Guardar">
+  </form>
+
+  <script src="/script.js"></script>
+</body>
+</html>

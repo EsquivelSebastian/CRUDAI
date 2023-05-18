@@ -1,0 +1,44 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+  }
+
+  .container {
+    margin-top: 20rem;
+    width: 800px;
+    padding: 20px;
+    background-color: #f1f1f1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .employee {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .employee-image {
+    width: 8rem;
+    margin-right: 5px;
+  }
+
+  .employee-details {
+    flex: 1;
+  }
+
+  .employee-details h2 {
+    margin: 0;
+    font-size: 18px;
+  }
+
+  .employee-details p {
+    margin: 0;
+    font-size: 14px;
+    color: #888;
+  }
