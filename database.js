@@ -4,8 +4,10 @@ const express = require('express');
 const mysql = require('mysql2');
 const bodyParser = require('body-parser');
 const multer = require('multer');
+const XLSX = require('xlsx');
 
-// Establecer conexión con la base de datos MySQL
+const app = express();
+
 const dbConfig = {
   host: 'localhost',
   user: 'root',
@@ -13,10 +15,8 @@ const dbConfig = {
   database: 'basetest'
 };
 
-// Creación de la conexión a la base de datos
 const connection = mysql.createConnection(dbConfig);
 
-// Conexión a la base de datos
 connection.connect((error) => {
   if (error) {
     console.error('Error de conexión a la base de datos:', error);
@@ -25,13 +25,7 @@ connection.connect((error) => {
   }
 });
 
-// Creación del servidor Express
-const app = express();
-
-// Configurar EJS como motor de plantillas
 app.set('view engine', 'ejs');
-
-// Middleware para procesar los datos del formulario
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -46,7 +40,6 @@ app.use(session({
 
 app.use(flash());
 
-// Consultar registros de la tabla "empleados"
 app.get('/consult', (req, res) => {
   connection.query('SELECT * FROM empleados', (error, results) => {
     if (error) {
@@ -56,7 +49,6 @@ app.get('/consult', (req, res) => {
   });
 });
 
-// Configuración de Multer para gestionar la carga de archivos
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'uploads/'); // Directorio donde se guardarán las imágenes cargadas
@@ -68,34 +60,52 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// Ruta para la carga de la imagen
 app.post('/crear-entrada', upload.single('profileImage'), (req, res) => {
-  const { employeeID, legajo_reporta, nombre, apellido, apellido_nombre, direccion, gerencia_area, gerencia, puesto, sucursal } = req.body;
+  const file = req.file;
 
-  // Obtenemos el nombre de la imagen cargada desde req.file.filename
-  const imageName = req.file.filename;
+  if (!file) {
+    req.flash('error', 'No se ha proporcionado ningún archivo');
+    return res.redirect('/');
+  }
 
-  const query = `INSERT INTO empleados (employeeID, legajo_reporta, nombre, apellido, apellido_nombre, direccion, gerencia_area, gerencia, puesto, sucursal, imageName) 
-    VALUES ('${employeeID}', '${legajo_reporta}', '${nombre}', '${apellido}', '${apellido_nombre}', 
-    '${direccion}', '${gerencia_area}', '${gerencia}', '${puesto}', '${sucursal}', '${imageName}')`;
+  const workbook = XLSX.readFile(file.path);
+  const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+  const jsonData = XLSX.utils.sheet_to_json(worksheet);
 
-  connection.query(query, (error, result) => {
+  console.log(jsonData); // Imprimir los datos del archivo Excel en formato JSON
+
+  const insertQuery = `INSERT INTO empleados (employeeID, legajo_reporta, nombre, apellido, apellido_nombre, direccion, gerencia_area, gerencia, puesto, sucursal, imageName) VALUES ?`;
+
+  const values = jsonData.map((data) => [
+    data.employeeID || '',
+    data.legajo_reporta || '',
+    data.nombre || '',
+    data.apellido || '',
+    data.apellido_nombre || '',
+    data.direccion || '',
+    data.gerencia_area || '',
+    data.gerencia || '',
+    data.puesto || '',
+    data.sucursal || '',
+    file.originalname || ''
+  ]);
+
+  connection.query(insertQuery, [values], (error, result) => {
     if (error) {
       console.error('Error al insertar los datos:', error);
-      res.redirect('/');
+      req.flash('error', 'Error al insertar los datos');
     } else {
       console.log('Datos insertados correctamente');
-      res.redirect('/consult');
+      req.flash('success', 'Datos insertados correctamente');
     }
+    res.redirect('/consult');
   });
 });
 
-// Ruta para el formulario
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/form.html');
 });
 
-// Iniciar el servidor en el puerto 3000
 app.listen(3000, () => {
   console.log('Servidor iniciado en el puerto 3000');
 });

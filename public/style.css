@@ -17,9 +17,22 @@ height: 200px;
 border-radius: 50%;
 }
 
-input[type="file"]:not(:placeholder-shown) + label {
-  display: none;
+.file-upload-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
+
+.file-upload-btn:hover {
+  background-color: #45a049;
+}
+ 
+
+
 
 
 .profile-image {

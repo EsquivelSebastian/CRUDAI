@@ -6,6 +6,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200;400&display=swap" rel="stylesheet">
+  
   </head>
 <body>
   <h1>Alta de Empleado</h1>
@@ -14,10 +15,17 @@
 
     <div class="imageContainer">
       <div class="profile-image">
-        <img src="/a.jpg" alt="Profile Image" id="previewImage">
+        <img src="/a.jpeg" alt="Profile Image" id="previewImage">
       </div>
-      <input type="file" id="profileImage" name="profileImage" onchange="previewFile()">
+      <input type="file" id="profileImage" accept=".jpg, .jpeg, .png" name="profileImage" onchange="previewFile()" style="display: none;">
+      <label for="profileImage" id="labelArchivo" class="file-upload-btn">Selecciona un archivo</label>
     </div>
+    
+    <div>
+      <input type="file" id="fileInput" accept=".xlsx">
+      <button onclick="uploadFile()">Subir archivo</button>
+    </div>
+    
     
     <label for="employeeID">ID de Empleado:</label>
     <input type="text" id="employeeID" name="employeeID">
