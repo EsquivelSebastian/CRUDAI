@@ -5,6 +5,7 @@ const mysql = require('mysql2');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const XLSX = require('xlsx');
+const path = require('path');
 
 const app = express();
 
@@ -26,6 +27,7 @@ connection.connect((error) => {
 });
 
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -61,49 +63,64 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 app.post('/crear-entrada', upload.single('profileImage'), (req, res) => {
-  const file = req.file;
+  // Resto del código para la carga y procesamiento de archivos
+  // ...
 
-  if (!file) {
-    req.flash('error', 'No se ha proporcionado ningún archivo');
-    return res.redirect('/');
-  }
-
-  const workbook = XLSX.readFile(file.path);
-  const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-  const jsonData = XLSX.utils.sheet_to_json(worksheet);
-
-  console.log(jsonData); // Imprimir los datos del archivo Excel en formato JSON
-
-  const insertQuery = `INSERT INTO empleados (employeeID, legajo_reporta, nombre, apellido, apellido_nombre, direccion, gerencia_area, gerencia, puesto, sucursal, imageName) VALUES ?`;
-
-  const values = jsonData.map((data) => [
-    data.employeeID || '',
-    data.legajo_reporta || '',
-    data.nombre || '',
-    data.apellido || '',
-    data.apellido_nombre || '',
-    data.direccion || '',
-    data.gerencia_area || '',
-    data.gerencia || '',
-    data.puesto || '',
-    data.sucursal || '',
-    file.originalname || ''
-  ]);
-
-  connection.query(insertQuery, [values], (error, result) => {
-    if (error) {
-      console.error('Error al insertar los datos:', error);
-      req.flash('error', 'Error al insertar los datos');
-    } else {
-      console.log('Datos insertados correctamente');
-      req.flash('success', 'Datos insertados correctamente');
-    }
-    res.redirect('/consult');
-  });
+  res.redirect('/consult');
 });
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/form.html');
+  res.render('form');
+});
+
+app.get('/editar-empleado', (req, res) => {
+  const empleadoId = req.query.id;
+
+  // Obtener los detalles del empleado con el ID proporcionado
+  connection.query('SELECT * FROM empleados WHERE id = ?', [empleadoId], (error, results) => {
+    if (error) {
+      console.error('Error al obtener los detalles del empleado:', error);
+      req.flash('error', 'Error al obtener los detalles del empleado');
+      return res.redirect('/consult');
+    }
+
+    const empleado = results[0];
+    res.render('editar-empleado', { empleado: results });
+  });
+});
+
+app.put('/editar-empleado/:id', (req, res) => {
+  const id = req.params.id;
+  const { nombre, apellido, direccion, gerencia } = req.body;
+
+  const updateQuery = 'UPDATE empleados SET nombre = ?, apellido = ?, direccion = ?, gerencia = ? WHERE id = ?';
+  const values = [nombre, apellido, direccion, gerencia, id];
+
+  connection.query(updateQuery, values, (error, result) => {
+    if (error) {
+      console.error('Error al actualizar el registro:', error);
+      req.flash('error', 'Error al actualizar el registro');
+    } else {
+      console.log('Registro actualizado correctamente');
+      req.flash('success', 'Registro actualizado correctamente');
+    }
+    res.render('editar-empleado', { empleado: result });
+  });
+});
+
+app.delete('/eliminar/:id', (req, res) => {
+  const id = req.params.id;
+
+  connection.query('DELETE FROM empleados WHERE id = ?', [id], (error, result) => {
+    if (error) {
+      console.error('Error al eliminar el registro:', error);
+      req.flash('error', 'Error al eliminar el registro');
+    } else {
+      console.log('Registro eliminado correctamente');
+      req.flash('success', 'Registro eliminado correctamente');
+    }
+    res.render('consult', { empleados: result });
+  });
 });
 
 app.listen(3000, () => {

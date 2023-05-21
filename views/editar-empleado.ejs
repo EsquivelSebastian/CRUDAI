@@ -25,52 +25,43 @@
       });
     });
     function editEmpleado(id) {
-    // Redirigir a la URL con el ID del empleado como parámetro
-    window.location.href = `/editar-empleado?id=${id}`;
-  }
+      // Redirigir a la URL con el ID del empleado como parámetro
+      window.location.href = `/editar-empleado?id=${id}`;
+    }
   </script>
 </head>
 
 <header>
-  <%- include('navbar') %>
+  <% include('navbar') %>
 </header>
 
 <body>
   <div class="container">
-    <h1>Consulta de empleados</h1>
+    <h1>Edicion de empleados</h1>
 
     <!-- Aquí se generarán dinámicamente los datos de los empleados -->
-    <% empleados.forEach(function(empleado) { %>
+    <% empleado.forEach(function(empleado) { %>
     <div class="employee" data-id="<%= empleado.id %>">
       <div>
         <img src="/uploads/<%= empleado.imageName %>" alt="Profile Image" class="employee-image">
       </div>
       <div class="employee-details">
-        <h2>
-          <%= empleado.apellido_nombre %>
-        </h2>
-        <p>ID de empleados: <%= empleado.employeeID %>
-        </p>
-        <p>Legajo que reporta: <%= empleado.legajo_reporta %>
-        </p>
-        <p>Dirección: <%= empleado.direccion %>
-        </p>
-        <p>Gerencia/Área: <%= empleado.gerencia_area %>
-        </p>
-        <p>Gerencia: <%= empleado.gerencia %>
-        </p>
-        <p>Puesto: <%= empleado.puesto %>
-        </p>
-        <p>Sucursal: <%= empleado.sucursal %>
-        </p>
+        <h2><%= empleado.apellido_nombre %></h2>
+        <p>ID de empleados: <%= empleado.employeeID %></p>
+        <p>Legajo que reporta: <%= empleado.legajo_reporta %></p>
+        <p>Dirección: <%= empleado.direccion %></p>
+        <p>Gerencia/Área: <%= empleado.gerencia_area %></p>
+        <p>Gerencia: <%= empleado.gerencia %></p>
+        <p>Puesto: <%= empleado.puesto %></p>
+        <p>Sucursal: <%= empleado.sucursal %></p>
       </div>
       <div class="employee-icons">
         <i class="fas fa-trash"></i>
-        <a href="/editar-empleado?id=<%= empleado.id %>"><i class="fas fa-pencil-alt"></i></a>
+        <a href="#" onclick="editEmpleado(<%= empleado.id %>)"><i class="fas fa-pencil-alt"></i></a>
       </div>
+      
     </div>
     <% }) %>
-
   </div>
 </body>
 

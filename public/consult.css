@@ -1,44 +1,91 @@
-body {
+html{
+  display: flex;
+  flex-direction: column;
+  }
+  header{
+    position: fixed; /* Establece el encabezado como una posición fija */
+    top: 0; /* Coloca el encabezado en la parte superior de la ventana */
+    width: 100%; /* Establece el ancho del encabezado al 100% del contenedor */
+    z-index: 999; /* Asegura que el encabezado esté en la capa superior */
+    background-color: #ffffff;
+  }
+  body {
+    font-family: 'Dosis', sans-serif;
+    background-color: #f2f2f2;
+    margin-top: 65px; /* Agrega un margen superior para evitar que el contenido se superponga con el encabezado */
+    padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    font-family: Arial, sans-serif;
+    min-height: 100vh;
   }
 
+.container {
+  width: 90%;
+  max-width: 800px;
+  padding: 20px;
+  background-color: #f1f1f1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+
+
+.employee {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.employee-icons {
+height: 200px;
+}
+
+.employee-icons i {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.employee-image {
+  width: 8rem;
+  margin-right: 5px;
+}
+
+.employee-details {
+  flex: 1;
+}
+
+.employee-details h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.employee-details p {
+  margin: 0;
+  font-size: 14px;
+  color: #888;
+}
+
+@media (max-width: 480px) {
   .container {
-    margin-top: 20rem;
-    width: 800px;
-    padding: 20px;
-    background-color: #f1f1f1;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-
-  .employee {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
+    width: 100%;
     padding: 10px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
-
+  .employee {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+  }
   .employee-image {
-    width: 8rem;
-    margin-right: 5px;
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 10px;
   }
-
-  .employee-details {
-    flex: 1;
-  }
-
-  .employee-details h2 {
-    margin: 0;
-    font-size: 18px;
-  }
-
-  .employee-details p {
-    margin: 0;
-    font-size: 14px;
-    color: #888;
-  }
+}

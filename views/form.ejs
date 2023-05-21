@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Plantilla Básica</title>
-    <link rel="stylesheet" type="text/css" href="/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200;400&display=swap" rel="stylesheet">
-  
-  </head>
+
+<head>
+  <title>Plantilla Básica</title>
+  <link rel="stylesheet" type="text/css" href="/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200;400&display=swap" rel="stylesheet">
+
+</head>
+<header>
+  <%- include('navbar') %>
+</header>
+
 <body>
+
   <h1>Alta de Empleado</h1>
 
   <form action="/crear-entrada" method="post" enctype="multipart/form-data">
@@ -17,16 +23,18 @@
       <div class="profile-image">
         <img src="/a.jpeg" alt="Profile Image" id="previewImage">
       </div>
-      <input type="file" id="profileImage" accept=".jpg, .jpeg, .png" name="profileImage" onchange="previewFile()" style="display: none;">
+      <input type="file" id="profileImage" accept=".jpg, .jpeg, .png" name="profileImage" onchange="previewFile()"
+        style="display: none;">
       <label for="profileImage" id="labelArchivo" class="file-upload-btn">Selecciona un archivo</label>
     </div>
-    
+
+    <!--
     <div>
       <input type="file" id="fileInput" accept=".xlsx">
       <button onclick="uploadFile()">Subir archivo</button>
-    </div>
-    
-    
+    </div> -->
+
+
     <label for="employeeID">ID de Empleado:</label>
     <input type="text" id="employeeID" name="employeeID">
 
@@ -62,4 +70,5 @@
 
   <script src="/script.js"></script>
 </body>
+
 </html>
