@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const multer = require('multer');
 const XLSX = require('xlsx');
 const path = require('path');
+const methodOverride = require('method-override');
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use('/uploads', express.static('uploads'));
 
+app.use(methodOverride('_method'));
 app.use(session({
   secret: 'kakawate',
   resave: false,
@@ -65,7 +67,6 @@ const upload = multer({ storage: storage });
 app.post('/crear-entrada', upload.single('profileImage'), (req, res) => {
 
   const { employeeID, legajo_reporta, nombre, apellido, apellido_nombre, direccion, gerencia_area, gerencia, puesto, sucursal } = req.body;
-
   const insertQuery = 'INSERT INTO empleados (employeeID, legajo_reporta, nombre, apellido, apellido_nombre, direccion, gerencia_area, gerencia, puesto, sucursal, imageName) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
   const values = [employeeID, legajo_reporta, nombre, apellido, apellido_nombre, direccion, gerencia_area, gerencia, puesto, sucursal, req.file.filename];
   
@@ -81,33 +82,33 @@ app.post('/crear-entrada', upload.single('profileImage'), (req, res) => {
   });
 });
 
-
 app.get('/', (req, res) => {
   res.render('form');
 });
 
 app.get('/editar-empleado', (req, res) => {
-  const empleadoId = req.query.id;
+  const id = req.query.id; // Obtén el ID del empleado de la URL
 
-  // Obtener los detalles del empleado con el ID proporcionado
-  connection.query('SELECT * FROM empleados WHERE id = ?', [empleadoId], (error, results) => {
+  // Realiza una consulta a la base de datos para obtener los datos del empleado
+  connection.query('SELECT * FROM empleados WHERE id = ?', [id], (error, results) => {
     if (error) {
-      console.error('Error al obtener los detalles del empleado:', error);
-      req.flash('error', 'Error al obtener los detalles del empleado');
-      return res.redirect('/consult');
+      console.error(error);
+      res.status(500).send('Error al obtener los datos del empleado'); // Maneja errores en la consulta a la base de datos
+    } else if (results.length === 0) {
+      res.status(404).send('Empleado no encontrado'); // Maneja el caso cuando el empleado no existe
+    } else {
+      const empleado = results[0];
+      res.render('editar-empleado', { empleado }); // Renderiza la vista con los datos del empleado
     }
-
-    const empleado = results[0];
-    res.render('editar-empleado', { empleado: results });
   });
 });
 
-app.put('/editar-empleado/:id', (req, res) => {
+app.post('/editar-empleado/:id', (req, res) => {
   const id = req.params.id;
-  const { nombre, apellido, direccion, gerencia, puesto, sucursal } = req.body;
+  const { employeeID, legajo_reporta, nombre, apellido, apellido_nombre, direccion, gerencia_area, gerencia, puesto, sucursal } = req.body;
 
-  const updateQuery = 'UPDATE empleados SET nombre = ?, apellido = ?, direccion = ?, gerencia = ?, puesto = ?, sucursal = ? WHERE id = ?';
-  const values = [nombre, apellido, direccion, gerencia, puesto, sucursal, id];
+  const updateQuery = 'UPDATE empleados SET employeeID = ?, legajo_reporta = ?, nombre = ?, apellido = ?, apellido_nombre = ?, direccion = ?, gerencia_area = ?, gerencia = ?, puesto = ?, sucursal = ? WHERE id = ?';
+  const values = [employeeID, legajo_reporta, nombre, apellido, apellido_nombre, direccion, gerencia_area, gerencia, puesto, sucursal, id];
 
   connection.query(updateQuery, values, (error, result) => {
     if (error) {
@@ -117,9 +118,10 @@ app.put('/editar-empleado/:id', (req, res) => {
       console.log('Registro actualizado correctamente');
       req.flash('success', 'Registro actualizado correctamente');
     }
-    res.render('editar-empleado', { empleado: result });
+    res.redirect('/consult');
   });
 });
+
 
 app.delete('/eliminar/:id', (req, res) => {
   const id = req.params.id;
@@ -132,7 +134,8 @@ app.delete('/eliminar/:id', (req, res) => {
       console.log('Registro eliminado correctamente');
       req.flash('success', 'Registro eliminado correctamente');
     }
-    res.render('consult', { empleados: result });
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.redirect('/consult');
   });
 });
 

@@ -2,67 +2,58 @@
 <html>
 
 <head>
-  <title>Consulta de empleados</title>
-  <link rel="stylesheet" href="/consult.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script>
-    $(document).ready(function() {
-      $('.fa-trash').click(function() {
-        var employeeId = $(this).closest('.employee').data('id');
-        if (confirm('¿Estás seguro de que quieres eliminar este registro?')) {
-          $.ajax({
-            url: '/eliminar/' + employeeId,
-            method: 'GET',
-            success: function(response) {
-              location.reload();
-            },
-            error: function(xhr, status, error) {
-              console.error(error);
-            }
-          });
-        }
-      });
-    });
-    function editEmpleado(id) {
-      // Redirigir a la URL con el ID del empleado como parámetro
-      window.location.href = `/editar-empleado?id=${id}`;
-    }
-  </script>
-</head>
+  <title>Plantilla Básica</title>
+  <link rel="stylesheet" type="text/css" href="/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200;400&display=swap" rel="stylesheet">
 
+</head>
 <header>
-  <% include('navbar') %>
+  <%- include('navbar') %>
 </header>
 
 <body>
-  <div class="container">
-    <h1>Edicion de empleados</h1>
 
-    <!-- Aquí se generarán dinámicamente los datos de los empleados -->
-    <% empleado.forEach(function(empleado) { %>
-    <div class="employee" data-id="<%= empleado.id %>">
-      <div>
-        <img src="/uploads/<%= empleado.imageName %>" alt="Profile Image" class="employee-image">
-      </div>
-      <div class="employee-details">
-        <h2><%= empleado.apellido_nombre %></h2>
-        <p>ID de empleados: <%= empleado.employeeID %></p>
-        <p>Legajo que reporta: <%= empleado.legajo_reporta %></p>
-        <p>Dirección: <%= empleado.direccion %></p>
-        <p>Gerencia/Área: <%= empleado.gerencia_area %></p>
-        <p>Gerencia: <%= empleado.gerencia %></p>
-        <p>Puesto: <%= empleado.puesto %></p>
-        <p>Sucursal: <%= empleado.sucursal %></p>
-      </div>
-      <div class="employee-icons">
-        <i class="fas fa-trash"></i>
-       <!-- <a href="#" onclick="editEmpleado(<%= empleado.id %>)"><i class="fas fa-pencil-alt"></i></a> -->
-      </div>
-      
-    </div>
-    <% }) %>
-  </div>
+  <h1>Alta de Empleado</h1>
+
+  <form action="/editar-empleado/<%= empleado.id %>" method="post">
+    <input type="hidden" name="id" value="<%= empleado.id %>">
+  
+    <label for="employeeID">ID de Empleado:</label>
+    <input type="text" id="employeeID" name="employeeID" value="<%= empleado.employeeID %>">
+  
+    <label for="legajo_reporta">Legajo que reporta:</label>
+    <input type="text" id="legajo_reporta" name="legajo_reporta" value="<%= empleado.legajo_reporta %>">
+  
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" value="<%= empleado.nombre %>">
+  
+    <label for="apellido">Apellido:</label>
+    <input type="text" id="apellido" name="apellido" value="<%= empleado.apellido %>">
+  
+    <label for="apellido_nombre">Apellido y Nombre:</label>
+    <input type="text" id="apellido_nombre" name="apellido_nombre" value="<%= empleado.apellido_nombre %>">
+  
+    <label for="direccion">Dirección:</label>
+    <input type="text" id="direccion" name="direccion" value="<%= empleado.direccion %>">
+  
+    <label for="gerencia_area">Gerencia/Área:</label>
+    <input type="text" id="gerencia_area" name="gerencia_area" value="<%= empleado.gerencia_area %>">
+  
+    <label for="gerencia">Gerencia:</label>
+    <input type="text" id="gerencia" name="gerencia" value="<%= empleado.gerencia %>">
+  
+    <label for="puesto">Puesto:</label>
+    <input type="text" id="puesto" name="puesto" value="<%= empleado.puesto %>">
+  
+    <label for="sucursal">Sucursal:</label>
+    <input type="text" id="sucursal" name="sucursal" value="<%= empleado.sucursal %>">
+  
+    <input type="submit" value="Guardar">
+  </form>
+  
+  <script src="/script.js"></script>
 </body>
 
 </html>
