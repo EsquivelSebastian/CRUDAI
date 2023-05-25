@@ -91,10 +91,10 @@ app.get('/editar-empleado', (req, res) => {
 
 app.put('/editar-empleado/:id', (req, res) => {
   const id = req.params.id;
-  const { nombre, apellido, direccion, gerencia } = req.body;
+  const { nombre, apellido, direccion, gerencia, puesto, sucursal } = req.body;
 
-  const updateQuery = 'UPDATE empleados SET nombre = ?, apellido = ?, direccion = ?, gerencia = ? WHERE id = ?';
-  const values = [nombre, apellido, direccion, gerencia, id];
+  const updateQuery = 'UPDATE empleados SET nombre = ?, apellido = ?, direccion = ?, gerencia = ?, puesto = ?, sucursal = ? WHERE id = ?';
+  const values = [nombre, apellido, direccion, gerencia, puesto, sucursal, id];
 
   connection.query(updateQuery, values, (error, result) => {
     if (error) {
