@@ -63,11 +63,24 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 app.post('/crear-entrada', upload.single('profileImage'), (req, res) => {
-  // Resto del código para la carga y procesamiento de archivos
-  // ...
 
-  res.redirect('/consult');
+  const { employeeID, legajo_reporta, nombre, apellido, apellido_nombre, direccion, gerencia_area, gerencia, puesto, sucursal } = req.body;
+
+  const insertQuery = 'INSERT INTO empleados (employeeID, legajo_reporta, nombre, apellido, apellido_nombre, direccion, gerencia_area, gerencia, puesto, sucursal, imageName) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+  const values = [employeeID, legajo_reporta, nombre, apellido, apellido_nombre, direccion, gerencia_area, gerencia, puesto, sucursal, req.file.filename];
+  
+  connection.query(insertQuery, values, (error, result) => {
+    if (error) {
+      console.error('Error al crear un nuevo registro:', error);
+      req.flash('error', 'Error al crear un nuevo registro');
+    } else {
+      console.log('Nuevo registro creado correctamente');
+      req.flash('success', 'Nuevo registro creado correctamente');
+    }
+    res.redirect('/consult');
+  });
 });
+
 
 app.get('/', (req, res) => {
   res.render('form');
