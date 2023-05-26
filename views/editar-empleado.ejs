@@ -15,44 +15,62 @@
 
 <body>
 
-  <h1>Alta de Empleado</h1>
+  <h1>Editar datos Empleado</h1>
 
   <form action="/editar-empleado/<%= empleado.id %>" method="post">
+
+    <div class="imageContainer">
+
+
+      <div class="profile-image">
+
+        <div>
+          <img src="/uploads/<%= empleado.imageName %>" alt="Profile Image" class="employee-image">
+        </div>
+      </div>
+      <input type="file" id="profileImage" accept=".jpg, .jpeg, .png" name="profileImage" onchange="previewFile()"
+        style="display: none;">
+      <label for="profileImage" id="labelArchivo" class="file-upload-btn">Selecciona un archivo</label>
+
+    </div>
+
     <input type="hidden" name="id" value="<%= empleado.id %>">
-  
+
+
+
     <label for="employeeID">ID de Empleado:</label>
     <input type="text" id="employeeID" name="employeeID" value="<%= empleado.employeeID %>">
-  
+
     <label for="legajo_reporta">Legajo que reporta:</label>
     <input type="text" id="legajo_reporta" name="legajo_reporta" value="<%= empleado.legajo_reporta %>">
-  
+
     <label for="nombre">Nombre:</label>
     <input type="text" id="nombre" name="nombre" value="<%= empleado.nombre %>">
-  
+
     <label for="apellido">Apellido:</label>
     <input type="text" id="apellido" name="apellido" value="<%= empleado.apellido %>">
-  
+
     <label for="apellido_nombre">Apellido y Nombre:</label>
     <input type="text" id="apellido_nombre" name="apellido_nombre" value="<%= empleado.apellido_nombre %>">
-  
+
     <label for="direccion">Dirección:</label>
     <input type="text" id="direccion" name="direccion" value="<%= empleado.direccion %>">
-  
+
     <label for="gerencia_area">Gerencia/Área:</label>
     <input type="text" id="gerencia_area" name="gerencia_area" value="<%= empleado.gerencia_area %>">
-  
+
     <label for="gerencia">Gerencia:</label>
     <input type="text" id="gerencia" name="gerencia" value="<%= empleado.gerencia %>">
-  
+
     <label for="puesto">Puesto:</label>
     <input type="text" id="puesto" name="puesto" value="<%= empleado.puesto %>">
-  
+
     <label for="sucursal">Sucursal:</label>
     <input type="text" id="sucursal" name="sucursal" value="<%= empleado.sucursal %>">
-  
+
     <input type="submit" value="Guardar">
   </form>
-  
+
   <script src="/script.js"></script>
 </body>
 

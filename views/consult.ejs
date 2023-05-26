@@ -3,19 +3,111 @@
 
 <head>
   <title>Consulta de empleados</title>
-  <link rel="stylesheet" href="/consult.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<style>
+  html{
+  display: flex;
+  flex-direction: column;
+  }
+  header{
+    position: fixed; /* Establece el encabezado como una posición fija */
+    top: 0; /* Coloca el encabezado en la parte superior de la ventana */
+    width: 100%; /* Establece el ancho del encabezado al 100% del contenedor */
+    z-index: 999; /* Asegura que el encabezado esté en la capa superior */
+    background-color: #ffffff;
+  }
+  body {
+    font-family: 'Dosis', sans-serif;
+    background-color: #f2f2f2;
+    margin-top: 65px; /* Agrega un margen superior para evitar que el contenido se superponga con el encabezado */
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
 
+.container {
+  width: 90%;
+  max-width: 800px;
+  padding: 20px;
+  background-color: #f1f1f1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+
+
+.employee {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.employee-icons {
+height: 200px;
+}
+
+.employee-icons i {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.employee-image {
+  width: 8rem;
+  margin-right: 5px;
+}
+
+.employee-details {
+  flex: 1;
+}
+
+.employee-details h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.employee-details p {
+  margin: 5px;
+  font-size: 15px;
+  color: #888;
+}
+
+@media (max-width: 480px) {
+  .container {
+    width: 100%;
+    padding: 10px;
+  }
+  .employee {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+  }
+  .employee-image {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+}
+
+</style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200;400&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 
-<header>
   <%- include('navbar') %>
-</header>
 
 <body>
+  <h1>Consulta de empleados</h1>
+
   <div class="container">
-    <h1>Consulta de empleados</h1>
 
     <!-- Aquí se generarán dinámicamente los datos de los empleados -->
     <% empleados.forEach(function(empleado) { %>
@@ -47,13 +139,13 @@
         <a href="#" class="delete-employee" data-id="<%= empleado.id %>" data-method="DELETE">
           <i class="fas fa-trash"></i>
         </a>
-        
-        
+
+
         <a href="/editar-empleado?id=<%= empleado.id %>">
           <i class="fas fa-pencil-alt"></i>
         </a>
       </div>
-      
+
     </div>
     <% }) %>
 
@@ -71,7 +163,8 @@ $(document).ready(function() {
         url: '/eliminar/' + employeeId,
         method: method,
         success: function(response) {
-          location.reload();
+          // Recargar completamente la página
+          window.location.reload();
         },
         error: function(xhr, status, error) {
           console.error(error);
@@ -82,7 +175,6 @@ $(document).ready(function() {
 });
 
   </script>
-  
 </body>
 
 </html>

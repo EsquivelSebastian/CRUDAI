@@ -118,7 +118,7 @@ app.post('/editar-empleado/:id', (req, res) => {
       console.log('Registro actualizado correctamente');
       req.flash('success', 'Registro actualizado correctamente');
     }
-    res.redirect('/consult');
+    res.redirect('/consult',);
   });
 });
 
@@ -130,14 +130,22 @@ app.delete('/eliminar/:id', (req, res) => {
     if (error) {
       console.error('Error al eliminar el registro:', error);
       req.flash('error', 'Error al eliminar el registro');
+      res.sendStatus(500); // Envía un código de estado 500 (Error interno del servidor) en caso de error
     } else {
       console.log('Registro eliminado correctamente');
       req.flash('success', 'Registro eliminado correctamente');
+
+      // Renderiza nuevamente la vista 'consult' después de eliminar el registro
+      connection.query('SELECT * FROM empleados', (error, results) => {
+        if (error) {
+          throw error;
+        }
+        res.render('consult', { empleados: results });
+      });
     }
-    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-    res.redirect('/consult');
   });
 });
+
 
 app.listen(3000, () => {
   console.log('Servidor iniciado en el puerto 3000');

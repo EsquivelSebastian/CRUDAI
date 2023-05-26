@@ -2,13 +2,7 @@ html{
 display: flex;
 flex-direction: column;
 }
-header{
-  position: fixed; /* Establece el encabezado como una posición fija */
-  top: 0; /* Coloca el encabezado en la parte superior de la ventana */
-  width: 100%; /* Establece el ancho del encabezado al 100% del contenedor */
-  z-index: 999; /* Asegura que el encabezado esté en la capa superior */
-  background-color: #ffffff;
-}
+
 body {
   font-family: 'Dosis', sans-serif;
   background-color: #f2f2f2;
